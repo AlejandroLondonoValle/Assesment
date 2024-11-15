@@ -51,7 +51,8 @@ public class ValidRoleAttribute : ValidationAttribute
         if (value is string role)
         {
             if (role.Equals("medicate", StringComparison.OrdinalIgnoreCase) ||
-                role.Equals("patient", StringComparison.OrdinalIgnoreCase))
+                role.Equals("patient", StringComparison.OrdinalIgnoreCase) ||
+                role.Equals("admin", StringComparison.OrdinalIgnoreCase))
             {
                 return ValidationResult.Success;
             }

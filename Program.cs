@@ -33,8 +33,26 @@ builder.Services.AddControllers()
     });
 
 
+// Repositories
 builder.Services.AddScoped<IUserRepository, UserServices>();
-builder.Services.AddScoped<UserServices, UserServices>();    
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IMedicateRepository, MedicateRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepository>();
+
+// Services
+
+builder.Services.AddScoped<UserServices>();
+builder.Services.AddScoped<AdminService>();
+builder.Services.AddScoped<MedicateService>();
+builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<AppointmentService>();
+builder.Services.AddScoped<AvailabilityService>();
+
+
+builder.Services.AddControllers();
+
 
 var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
@@ -45,6 +63,7 @@ if (string.IsNullOrEmpty(jwtSecretKey))
     throw new InvalidOperationException("JWT_SECRET_KEY is not set.");
 }
 
+// Configuración CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
@@ -56,11 +75,17 @@ builder.Services.AddCors(options =>
         });
 });
 
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Medicate", policy =>
-        policy.RequireRole("medicate")); // Usa minúsculas para comparar el rol
+        policy.RequireRole("medicate")); 
+    options.AddPolicy("Admin", policy =>
+        policy.RequireRole("admin"));   
+    options.AddPolicy("Patient", policy =>
+        policy.RequireRole("patient")); 
 });
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -74,9 +99,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtAudience,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey)),
-            ClockSkew = TimeSpan.Zero
+            ClockSkew = TimeSpan.Zero 
         };
     });
+
+
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

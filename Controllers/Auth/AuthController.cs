@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Assesment.Controllers.Auth
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly UserServices _userService;
