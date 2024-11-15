@@ -29,4 +29,12 @@ public partial class UsersController : ControllerBase
         }
         return user;
     }
+
+        // GET: api/Admin/users/role/{role}
+    [HttpGet("users/role/{role}")]
+    public async Task<IActionResult> GetUsersByRole(string role)
+    {
+        var users = await _userRepository.GetUsersByRole(role);
+        return Ok(users);
+    }
 }
