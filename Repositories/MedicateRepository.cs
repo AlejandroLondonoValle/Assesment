@@ -19,7 +19,7 @@ public class MedicateRepository : IMedicateRepository
 
     public async Task<Medicate?> GetMedicateById(int id)
     {
-        return await _context.Medicates.FindAsync(id);
+        return await _context.Medicates.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<IEnumerable<Appointment>> GetAppointmentsByMedicateId(int medicateId)

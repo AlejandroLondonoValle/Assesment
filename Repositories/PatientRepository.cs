@@ -19,7 +19,7 @@ public class PatientRepository : IPatientRepository
 
     public async Task<Patient?> GetPatientById(int id)
         {
-            return await _context.Patients.FindAsync(id);
+            return await _context.Patients.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Appointment>> GetAppointmentsByPatientId(int patientId)
