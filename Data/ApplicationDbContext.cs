@@ -12,6 +12,10 @@ public class ApplicationDbContext : DbContext
 {
 
     public DbSet<User> Users { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
+    public DbSet<Availability> Availabilities { get; set;}
+    public DbSet<Medicate> Medicates { get; set; }
+    public DbSet<Patient> Patients { get; set; }
 
 
 
