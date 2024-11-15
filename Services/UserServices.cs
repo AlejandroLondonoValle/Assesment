@@ -162,4 +162,11 @@ public class UserServices : IUserRepository
 
         return _context.Users.FirstOrDefault(u => u.Email == email);
     }
+
+
+
+    public async Task<IEnumerable<User>> GetUsersByRole(string role)
+    {
+        return await _context.Users.Where(u => u.Role == role).ToListAsync();
+    }
 }

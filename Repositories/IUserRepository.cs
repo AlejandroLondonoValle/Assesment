@@ -16,4 +16,5 @@ public interface IUserRepository
     Task<bool> CheckExistence(int id);
     Task<string?> login(string email, string password, string secretKey);
     Task<User?> ValidateUser(string email, string password);
+    Task<IEnumerable<User>> GetUsersByRole(string role);
 }
